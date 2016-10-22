@@ -10,6 +10,8 @@ public class GameObject {
     // 要素をArrayListで設定
     private static List<String> imgList = new ArrayList<>(); // staticにすると処理ができる
 
+    private static List<Integer> canPutList = new ArrayList<>(); // 置くことができる場所を記録
+
     private static int sTurn = 1; // 1なら黒,2なら白
     private static int tCount = 0; // ターン数
     private static int wCount = 2; // 白の数
@@ -23,6 +25,10 @@ public class GameObject {
 
     public List<String> getImgList(){ // staticにすると処理ができる
         return imgList;
+    }
+
+    public List<Integer> getCanPutList(){ // staticにすると処理ができる
+        return canPutList;
     }
 
     public int getSTurn(){

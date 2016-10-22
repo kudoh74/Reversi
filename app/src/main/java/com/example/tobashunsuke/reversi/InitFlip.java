@@ -16,7 +16,7 @@ public class InitFlip {
     private final int MINBOARD = 0; //  リストの格納数0〜63
 
     //盤の初期化
-    protected void initBoard() {
+    public void initBoard() {
         gObj.getImgList().clear(); // 盤の中身の画像をクリア
         for (int i = MINBOARD; i <= MAXBOARD; i++) { // 盤に緑の盤画像を挿入
             gObj.getImgList().add(gObj.getPiece(0));
@@ -57,6 +57,7 @@ public class InitFlip {
     // 置ける場所に置ける画像を配置
     public void putPlace() {
         gObj.setPCount(0);
+        gObj.getCanPutList().clear();
         for (int i = MINBOARD; i <= MAXBOARD; i++) {
             if (gObj.getImgList().get(i).equals(gObj.getPiece(3))) { // 置ける場所の画像を盤の画像に
                 gObj.getImgList().set(i, gObj.getPiece(0));
@@ -64,13 +65,9 @@ public class InitFlip {
             if (canPut(i) && gObj.getImgList().get(i).equals(gObj.getPiece(0))) { // 置くことができるか判定し、置きたい場所が盤の画像なら
                 gObj.getImgList().set(i, gObj.getPiece(3)); // 置くことができる画像を配置
                 gObj.setPCount(gObj.getPCount() + 1); // 置くことができたらスキップしないようにpCountに+1
+                gObj.getCanPutList().add(i);
             }
         }
-        //Log.d("putPlace", "through");
-    }
-
-    public void computerMove(){
-
     }
 
     // 上方向の処理
@@ -426,5 +423,19 @@ public class InitFlip {
         }
 
         return false; // どの方向も返すことができない場合
+    }
+
+    // 石を数える処理
+    public void countAllWB(){
+        gObj.setWCount(0);
+        gObj.setBCount(0);
+
+        for (int i = MINBOARD; i <= MAXBOARD; i++) { // 現状の石の数を数える
+            if (gObj.getImgList().get(i).equals(gObj.getPiece(1))) { // 黒の数
+                gObj.setBCount(gObj.getBCount() + 1);
+            } else if (gObj.getImgList().get(i).equals(gObj.getPiece(2))) { // 白の数
+                gObj.setWCount(gObj.getWCount() + 1);
+            }
+        }
     }
 }

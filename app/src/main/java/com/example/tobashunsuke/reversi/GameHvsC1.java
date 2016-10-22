@@ -17,13 +17,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class GameHvsH extends AppCompatActivity {
+public class GameHvsC1 extends AppCompatActivity {
     GridAdapter adapter;
 
     private InitFlip initFlip = new InitFlip();
     private GameObject gObj = new GameObject();
+    private Computer computer = new Computer();
 
     private Button returnGameMode;
+    private Button afterAttack;
 
     private Button boardClear;
     private TextView whichTurn;
@@ -33,19 +35,21 @@ public class GameHvsH extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_h_vs_h);
+        setContentView(R.layout.game_h_vs_c1);
 
-        returnGameMode = (Button) findViewById(R.id.return_gamemode);
+        returnGameMode = (Button) findViewById(R.id.return_gamemode1);
+        afterAttack = (Button) findViewById(R.id.after_attack1);
 
-        boardClear = (Button) findViewById(R.id.button_clear); // 盤のクリア
-        whichTurn = (TextView) findViewById(R.id.textView_turn); // どちらのターンか表示
-        resultText = (TextView) findViewById(R.id.textView_result); // 結果の表示
-        w_bText = (TextView) findViewById(R.id.textView_wb); // 白と黒の数の表示
+        boardClear = (Button) findViewById(R.id.button_clear1); // 盤のクリア
+        whichTurn = (TextView) findViewById(R.id.textView_turn1); // どちらのターンか表示
+        resultText = (TextView) findViewById(R.id.textView_result1); // 結果の表示
+        w_bText = (TextView) findViewById(R.id.textView_wb1); // 白と黒の数の表示
+
         resultText.setText("");
         setWBText();
 
         // GridViewのインスタンスを生成
-        final GridView gridview = (GridView) findViewById(R.id.gridview);
+        final GridView gridview = (GridView) findViewById(R.id.gridview1);
         // BaseAdapter を継承したGridAdapterのインスタンスを生成
         // 子要素のレイアウトファイル grid_items.xml を activity_main.xml に inflate するためにGridAdapterに引数として渡す
         adapter = new GridAdapter(this.getApplicationContext(), R.layout.grid_items, gObj.getImgList());
@@ -58,54 +62,39 @@ public class GameHvsH extends AppCompatActivity {
 
         initFlip.putPlace();// 置ける場所に置ける画像を配置
 
-        setWhichTurn();
+        initGui(); // guiの初期化
 
+        // gridviewをタップしたとき
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // gridview更新？
-                adapter = new GridAdapter(getApplicationContext(), R.layout.grid_items, gObj.getImgList());
-                gridview.setAdapter(adapter);
 
-                initFlip.putPlace(); // 置ける場所に置ける画像を配置
 
-                if (initFlip.canPut(position) && !initFlip.isDuplicate(position)) { // 置くことができ、一回打ったところでない
+                if(computer.getComOrder1() != gObj.getSTurn()) {
+                    for(int i = 0; i <= 1; i++) {
+                        if (i == 0) {
+                            clickAndCom(position);
+                            computer.waitTime();
+                        } else {
 
-                    if (gObj.getSTurn() == 1) {
-                        whichTurn.setText("白のターン");
-                        gObj.getImgList().set(position, gObj.getPiece(1)); // 画像を変える
-                    } else {
-                        whichTurn.setText("黒のターン");
-                        gObj.getImgList().set(position, gObj.getPiece(2)); // 画像を変える
+                            computer.waitTime();
+                            position = computer.com1AI();
+                            clickAndCom(position);
+                        }
+                        adapter.notifyDataSetChanged();
                     }
-                    initFlip.pBetween(position); // 返す処理
-                    gObj.setSTurn(3 - gObj.getSTurn()); // ターンチェンジ
+                } else {
+                    for(int i = 0; i <= 1; i++) {
+                        if (i == 0) {
+                            clickAndCom(position);
+                            computer.waitTime();
+                        } else {
 
-                    gObj.setTCount(gObj.getTCount() + 1);
-                    gObj.setPCount(0); // 置ける場所の初期化
-                }
-                initFlip.putPlace(); // 置ける場所に置ける画像を配置
-
-                // 置く場所がなかったらスキップ処理
-                if(gObj.getPCount() == 0){
-                    gObj.setSTurn(3 - gObj.getSTurn()); // ターンチェンジ
-                    setWhichTurn();
-                    initFlip.putPlace();
-                    if (gObj.getPCount() == 0) gObj.setSkipTurn(true); // 一人が置く場所がなくもう一人も置く場所がなかったら
-                }
-
-                initFlip.countAllWB();
-
-                setWBText(); // 各々の石の個数を記入
-
-                // 終了判定
-                if (gObj.getTCount() >= 60 || gObj.getSkipTurn()) { // 60ターン以上になるか、両方とも置けなかったら
-                    if (gObj.getWCount() < gObj.getBCount()) {
-                        resultText.setText("黒の勝ち");
-                    } else if (gObj.getWCount() > gObj.getBCount()) {
-                        resultText.setText("白の勝ち");
-                    } else if (gObj.getWCount() == gObj.getBCount()) {
-                        resultText.setText("引き分け");
+                            computer.waitTime();
+                            position = computer.com1AI();
+                            clickAndCom(position);
+                        }
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -114,16 +103,35 @@ public class GameHvsH extends AppCompatActivity {
         boardClear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                // gridview更新？
-                adapter = new GridAdapter(getApplicationContext(), R.layout.grid_items, gObj.getImgList());
-                gridview.setAdapter(adapter);
+
 
                 // クリアボタンを押したら
                 if (v == boardClear) {
                     initFlip.initBoard(); // 盤の初期化
                     initGui();
-
+                    computer.setComOrder1(2);
+                    adapter.notifyDataSetChanged();
                 }
+
+            }
+        });
+
+        afterAttack.setOnClickListener(new View.OnClickListener() { // 後攻にする
+            public void onClick(View v) {
+                //adapter.notifyDataSetChanged();
+
+                int position;
+
+                if(v == afterAttack) {
+                    initFlip.initBoard();
+                    computer.setComOrder1(1);
+                    initGui();
+
+                    position = computer.com1AI();
+                    clickAndCom(position);
+                }
+
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -154,6 +162,49 @@ public class GameHvsH extends AppCompatActivity {
         setWBText();
     }
 
+    private void clickAndCom(int position){
+
+        if (initFlip.canPut(position) && !initFlip.isDuplicate(position)) { // 置くことができ、一回打ったところでない
+
+            if (gObj.getSTurn() == 1) {
+                whichTurn.setText("白のターン");
+                gObj.getImgList().set(position, gObj.getPiece(1)); // 画像を変える
+            } else {
+                whichTurn.setText("黒のターン");
+                gObj.getImgList().set(position, gObj.getPiece(2)); // 画像を変える
+            }
+            initFlip.pBetween(position); // 返す処理
+            gObj.setSTurn(3 - gObj.getSTurn()); // ターンチェンジ
+
+            gObj.setTCount(gObj.getTCount() + 1); // ターンを１進める
+            gObj.setPCount(0); // 置ける場所の初期化
+        }
+        initFlip.putPlace(); // 置ける場所に置ける画像を配置
+
+        // 置く場所がなかったらスキップ処理
+        if(gObj.getPCount() == 0){
+            gObj.setSTurn(3 - gObj.getSTurn()); // ターンチェンジ
+            setWhichTurn(); // どちらのターンかテキストに描画
+            initFlip.putPlace();
+            if (gObj.getPCount() == 0) gObj.setSkipTurn(true); // 一人が置く場所がなくもう一人も置く場所がなかったら
+        }
+
+        initFlip.countAllWB(); // 石の数を数える
+
+        setWBText(); // 各々の石の個数を記入
+
+        // 終了判定
+        if (gObj.getTCount() >= 60 || gObj.getSkipTurn()) { // 60ターン以上になるか、両方とも置けなかったら
+            if (gObj.getWCount() < gObj.getBCount()) {
+                resultText.setText("黒の勝ち");
+            } else if (gObj.getWCount() > gObj.getBCount()) {
+                resultText.setText("白の勝ち");
+            } else if (gObj.getWCount() == gObj.getBCount()) {
+                resultText.setText("引き分け");
+            }
+        }
+
+    }
 
     class ViewHolder {
         ImageView imageView;

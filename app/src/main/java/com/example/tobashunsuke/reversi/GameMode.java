@@ -14,11 +14,21 @@ public class GameMode extends AppCompatActivity{
 
         final Button toHvsH = (Button) findViewById(R.id.human_vs_human);
         final Button returnMain = (Button) findViewById(R.id.to_title);
+        final Button toHvsC1 = (Button) findViewById(R.id.human_vs_computer_level_1);
 
         toHvsH.setOnClickListener(new View.OnClickListener() { // 人　対　人　へ
             public void onClick(View v) {
                 if(v == toHvsH){
                     Intent intent = new Intent(GameMode.this, GameHvsH.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        toHvsC1.setOnClickListener(new View.OnClickListener() { // 人　対　cpu　へ
+            public void onClick(View v) {
+                if(v == toHvsC1){
+                    Intent intent = new Intent(GameMode.this, GameHvsC1.class);
                     startActivity(intent);
                 }
             }
