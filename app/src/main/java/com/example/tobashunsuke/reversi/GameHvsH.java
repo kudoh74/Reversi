@@ -69,7 +69,7 @@ public class GameHvsH extends AppCompatActivity {
 
                 initFlip.putPlace(); // 置ける場所に置ける画像を配置
 
-                if (initFlip.canPut(position) && !initFlip.isDuplicate(position)) { // 置くことができ、一回打ったところでない
+                if (initFlip.canPut(position) && gObj.getImgList().get(position).equals(gObj.getPiece(3))) { // 置くことができ、置ける画像の場所なら
 
                     if (gObj.getSTurn() == 1) {
                         whichTurn.setText("白のターン");

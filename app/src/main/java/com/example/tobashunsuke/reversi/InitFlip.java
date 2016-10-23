@@ -44,16 +44,6 @@ public class InitFlip {
         //Log.d("onClick","through");
     }
 
-    // 一回打った場所か判定
-    public boolean isDuplicate(int listPosition) { // 一回打ったところでなければfalseを返す
-        boolean duplicate = false;
-        for (int i : pList) {
-            if (listPosition == i) duplicate = true; // 一回打った場所か判定
-        }
-        pList.add(listPosition); // 打った場所を保存
-        return duplicate;
-    }
-
     // 置ける場所に置ける画像を配置
     public void putPlace() {
         gObj.setPCount(0);

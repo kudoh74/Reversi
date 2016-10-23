@@ -18,7 +18,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class GameHvsC1 extends AppCompatActivity {
-    GridAdapter adapter;
+    private GridAdapter adapter;
 
     private InitFlip initFlip = new InitFlip();
     private GameObject gObj = new GameObject();
@@ -63,54 +63,87 @@ public class GameHvsC1 extends AppCompatActivity {
         initFlip.putPlace();// 置ける場所に置ける画像を配置
 
         initGui(); // guiの初期化
+        computer.setHasTurnChange(false);
+
 
         // gridviewをタップしたとき
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                if (initFlip.canPut(position) && gObj.getImgList().get(position).equals(gObj.getPiece(3))) { // 置くことができ、置ける画像の場所なら
 
+                    for (int i = 0; i <= 1; i++) {
 
-                if(computer.getComOrder1() != gObj.getSTurn()) {
-                    for(int i = 0; i <= 1; i++) {
                         if (i == 0) {
                             clickAndCom(position);
-                            computer.waitTime();
-                        } else {
+                            adapter.notifyDataSetChanged();
+                        } else if(computer.getComOrder1() == gObj.getSTurn()){
+                            Log.e("onclick", "through : 33333");/*
+                            for(int j = 0; j < 8; j++) {
+                                gObj.getImgList().set(8 * j, gObj.getPiece(2));
+                                gObj.getImgList().set((8 * j) + 1, gObj.getPiece(1));
+                                gObj.getImgList().set((8 * j) + 2, gObj.getPiece(0));
+                                gObj.getImgList().set((8 * j) + 3, gObj.getPiece(0));
+                                gObj.getImgList().set((8 * j) + 4, gObj.getPiece(0));
+                                gObj.getImgList().set((8 * j) + 5, gObj.getPiece(0));
+                                gObj.getImgList().set((8 * j) + 6, gObj.getPiece(0));
+                            }*/
+                            while (computer.getComOrder1() == gObj.getSTurn()) {
+                                initFlip.putPlace();// 置ける場所に置ける画像を配置
+                                position = computer.com1AI();
 
-                            computer.waitTime();
-                            position = computer.com1AI();
-                            clickAndCom(position);
+                                if (position == -1) { // エラー、置く場所がない
+                                    gObj.setSTurn(3 - gObj.getSTurn()); // ターンチェンジ
+                                    computer.setHasTurnChange(true); // ターンチェンジしたことを保存
+                                    setWhichTurn();
+                                    Log.e("onclick", "through : 3");
+                                    break;
+                                }
+                                clickAndCom(position);
+                                Log.d("onclick", String.valueOf(position));
+                                adapter.notifyDataSetChanged();
+                                Log.d("onclick", "through : 1");
+                                //computer.waitTime();
+                            }
                         }
-                        adapter.notifyDataSetChanged();
-                    }
-                } else {
-                    for(int i = 0; i <= 1; i++) {
-                        if (i == 0) {
-                            clickAndCom(position);
-                            computer.waitTime();
-                        } else {
 
-                            computer.waitTime();
-                            position = computer.com1AI();
-                            clickAndCom(position);
-                        }
-                        adapter.notifyDataSetChanged();
                     }
                 }
+
+                if (computer.getHasTurnChange()) {
+                    setWhichTurn(); // ないとパスした時に相手のターンが表示される
+                    computer.setHasTurnChange(false);
+                    Log.e("onclick", "through : 2");
+                    initFlip.putPlace();// 置ける場所に置ける画像を配置
+                }
             }
+
         });
 
         boardClear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-
-
                 // クリアボタンを押したら
                 if (v == boardClear) {
                     initFlip.initBoard(); // 盤の初期化
                     initGui();
-                    computer.setComOrder1(2);
-                    adapter.notifyDataSetChanged();
+                    computer.setComOrder1(2); // CPUを後攻に
+
+                    for(int i = 0; i < 5; i++) {/*
+                        gObj.getImgList().set(8 * i, gObj.getPiece(2));
+                        gObj.getImgList().set((8 * i) + 1, gObj.getPiece(1));
+                        gObj.getImgList().set((8 * i) + 2, gObj.getPiece(1));
+                        gObj.getImgList().set((8 * i) + 3, gObj.getPiece(0));
+                        gObj.getImgList().set((8 * i) + 4, gObj.getPiece(0));
+                        gObj.getImgList().set((8 * i) + 5, gObj.getPiece(1));
+                        gObj.getImgList().set((8 * i) + 6, gObj.getPiece(1));*/
+                    }
+                    //gObj.getImgList().set(34, gObj.getPiece(2));
+                    //gObj.getImgList().set(35, gObj.getPiece(0));
+
+                    initFlip.putPlace();// 置ける場所に置ける画像を配置
+                    adapter.notifyDataSetChanged(); // 画面更新
+                    computer.setHasTurnChange(false);
                 }
 
             }
@@ -119,19 +152,18 @@ public class GameHvsC1 extends AppCompatActivity {
         afterAttack.setOnClickListener(new View.OnClickListener() { // 後攻にする
             public void onClick(View v) {
                 //adapter.notifyDataSetChanged();
-
-                int position;
-
                 if(v == afterAttack) {
+                    int position;
                     initFlip.initBoard();
-                    computer.setComOrder1(1);
+                    computer.setComOrder1(1); // 後攻にする
                     initGui();
 
                     position = computer.com1AI();
                     clickAndCom(position);
-                }
+                    computer.setHasTurnChange(false); // ターンチェンジしたことを保存
 
-                adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -159,12 +191,15 @@ public class GameHvsC1 extends AppCompatActivity {
         resultText.setText(""); // 結果を消す
         initFlip.putPlace(); // 置ける場所を表示
         setWhichTurn();
+
+
         setWBText();
     }
 
     private void clickAndCom(int position){
 
-        if (initFlip.canPut(position) && !initFlip.isDuplicate(position)) { // 置くことができ、一回打ったところでない
+        //if (initFlip.canPut(position) && !initFlip.isDuplicate(position)) { // 置くことができ、一回打ったところでない
+        if (initFlip.canPut(position) && gObj.getImgList().get(position).equals(gObj.getPiece(3))) { // 置くことができ、置ける画像の場所なら
 
             if (gObj.getSTurn() == 1) {
                 whichTurn.setText("白のターン");
@@ -184,7 +219,8 @@ public class GameHvsC1 extends AppCompatActivity {
         // 置く場所がなかったらスキップ処理
         if(gObj.getPCount() == 0){
             gObj.setSTurn(3 - gObj.getSTurn()); // ターンチェンジ
-            setWhichTurn(); // どちらのターンかテキストに描画
+            //setWhichTurn(); // どちらのターンかテキストに描画
+            computer.setHasTurnChange(true); // ターンチェンジしたことを保存
             initFlip.putPlace();
             if (gObj.getPCount() == 0) gObj.setSkipTurn(true); // 一人が置く場所がなくもう一人も置く場所がなかったら
         }
