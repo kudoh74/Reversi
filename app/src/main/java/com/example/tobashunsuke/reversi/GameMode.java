@@ -15,6 +15,7 @@ public class GameMode extends AppCompatActivity{
         final Button toHvsH = (Button) findViewById(R.id.human_vs_human);
         final Button returnMain = (Button) findViewById(R.id.to_title);
         final Button toHvsC1 = (Button) findViewById(R.id.human_vs_computer_level_1);
+        final Button toHvsC2 = (Button) findViewById(R.id.human_vs_computer_level_2);
 
         toHvsH.setOnClickListener(new View.OnClickListener() { // 人　対　人　へ
             public void onClick(View v) {
@@ -29,6 +30,15 @@ public class GameMode extends AppCompatActivity{
             public void onClick(View v) {
                 if(v == toHvsC1){
                     Intent intent = new Intent(GameMode.this, GameHvsC1.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        toHvsC2.setOnClickListener(new View.OnClickListener() { // 人　対　cpu　へ
+            public void onClick(View v) {
+                if(v == toHvsC2){
+                    Intent intent = new Intent(GameMode.this, GameHvsC2.class);
                     startActivity(intent);
                 }
             }

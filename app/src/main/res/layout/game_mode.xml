@@ -21,7 +21,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="人　対　COM"
+        android:text="人 対 COM:Level 1"
         android:id="@+id/human_vs_computer_level_1"
         android:layout_below="@+id/human_vs_human"
         android:layout_centerHorizontal="true" />
@@ -29,7 +29,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="人 対 COM:Level 2"
         android:id="@+id/human_vs_computer_level_2"
         android:layout_below="@+id/human_vs_computer_level_1"
         android:layout_centerHorizontal="true" />
