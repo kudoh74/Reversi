@@ -19,15 +19,16 @@
         android:verticalSpacing="0dp"
         android:numColumns="8"
         android:stretchMode="columnWidth"
-        android:layout_below="@+id/button_clear1"
+        android:layout_below="@+id/textView_turn1"
         android:layout_centerHorizontal="true" />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/clear"
+        android:background="#00000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="clear"
         android:id="@+id/button_clear1"
-        android:layout_alignBottom="@+id/textView_turn1"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -36,6 +37,7 @@
         android:text="New Text"
         android:id="@+id/textView_turn1"
         android:textSize="40dp"
+        android:typeface="monospace"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
@@ -45,8 +47,9 @@
         android:text="New Text"
         android:id="@+id/textView_wb1"
         android:textSize="30dp"
-        android:layout_alignBottom="@+id/after_attack1"
-        android:layout_alignStart="@+id/textView_turn1" />
+        android:typeface="monospace"
+        android:layout_alignTop="@+id/after_attack1"
+        android:layout_alignEnd="@+id/gridview1" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,25 +57,28 @@
         android:text="New Text"
         android:id="@+id/textView_result1"
         android:textSize="30dp"
+        android:typeface="monospace"
         android:textColor="#ff0000"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignBottom="@+id/return_gamemode1"
+        android:layout_centerHorizontal="true" />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/after"
+        android:background="#00000000"
+        android:id="@+id/after_attack1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="メニューへ"
+        android:layout_above="@+id/return_gamemode1"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:src="@drawable/tomenu"
+        android:background="#00000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/return_gamemode1"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="後攻"
-        android:id="@+id/after_attack1"
-        android:layout_below="@+id/gridview1"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>

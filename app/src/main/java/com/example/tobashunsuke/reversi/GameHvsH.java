@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,9 +24,9 @@ public class GameHvsH extends AppCompatActivity {
     private InitFlip initFlip = new InitFlip();
     private GameObject gObj = new GameObject();
 
-    private Button returnGameMode;
+    private ImageButton returnGameMode;
 
-    private Button boardClear;
+    private ImageButton boardClear;
     private TextView whichTurn;
     private TextView resultText;
     private TextView w_bText;
@@ -35,9 +36,9 @@ public class GameHvsH extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_h_vs_h);
 
-        returnGameMode = (Button) findViewById(R.id.return_gamemode);
+        returnGameMode = (ImageButton) findViewById(R.id.return_gamemode);
 
-        boardClear = (Button) findViewById(R.id.button_clear); // 盤のクリア
+        boardClear = (ImageButton) findViewById(R.id.button_clear); // 盤のクリア
         whichTurn = (TextView) findViewById(R.id.textView_turn); // どちらのターンか表示
         resultText = (TextView) findViewById(R.id.textView_result); // 結果の表示
         w_bText = (TextView) findViewById(R.id.textView_wb); // 白と黒の数の表示

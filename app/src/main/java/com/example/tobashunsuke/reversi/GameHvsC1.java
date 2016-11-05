@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,10 +25,10 @@ public class GameHvsC1 extends AppCompatActivity {
     private GameObject gObj = new GameObject();
     private Computer computer = new Computer();
 
-    private Button returnGameMode;
-    private Button afterAttack;
+    private ImageButton returnGameMode;
+    private ImageButton afterAttack;
 
-    private Button boardClear;
+    private ImageButton boardClear;
     private TextView whichTurn;
     private TextView resultText;
     private TextView w_bText;
@@ -37,10 +38,10 @@ public class GameHvsC1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_h_vs_c1);
 
-        returnGameMode = (Button) findViewById(R.id.return_gamemode1);
-        afterAttack = (Button) findViewById(R.id.after_attack1);
+        returnGameMode = (ImageButton) findViewById(R.id.return_gamemode1);
+        afterAttack = (ImageButton) findViewById(R.id.after_attack1);
 
-        boardClear = (Button) findViewById(R.id.button_clear1); // 盤のクリア
+        boardClear = (ImageButton) findViewById(R.id.button_clear1); // 盤のクリア
         whichTurn = (TextView) findViewById(R.id.textView_turn1); // どちらのターンか表示
         resultText = (TextView) findViewById(R.id.textView_result1); // 結果の表示
         w_bText = (TextView) findViewById(R.id.textView_wb1); // 白と黒の数の表示

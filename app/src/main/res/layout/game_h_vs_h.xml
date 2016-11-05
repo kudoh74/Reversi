@@ -19,24 +19,16 @@
         android:verticalSpacing="0dp"
         android:numColumns="8"
         android:stretchMode="columnWidth"
-        android:layout_below="@+id/button_clear"
+        android:layout_below="@+id/textView_turn"
         android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="clear"
-        android:id="@+id/button_clear"
-        android:layout_alignBottom="@+id/textView_turn"
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="New"
         android:id="@+id/textView_turn"
         android:textSize="40dp"
-        android:layout_alignParentTop="true"
+        android:typeface="monospace"
         android:layout_alignParentEnd="true" />
 
     <TextView
@@ -45,8 +37,9 @@
         android:text="New Text"
         android:id="@+id/textView_wb"
         android:textSize="30dp"
+        android:typeface="monospace"
         android:layout_below="@+id/gridview"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignEnd="@+id/gridview" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,16 +48,27 @@
         android:id="@+id/textView_result"
         android:textSize="30dp"
         android:textColor="#ff0000"
+        android:typeface="monospace"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true" />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/clear"
+        android:background="#00000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="メニューへ"
+        android:id="@+id/button_clear"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:src="@drawable/tomenu"
+        android:background="#00000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/return_gamemode"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"/>
 
 
 </RelativeLayout>

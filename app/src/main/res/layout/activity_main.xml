@@ -9,22 +9,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.tobashunsuke.reversi.MainActivity">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="オセロ"
+        android:background="#00000000"
+        android:id="@+id/imageView"
+        android:src="@drawable/title"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:src="@drawable/start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:id="@+id/to_game_mode"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:src="@drawable/reversititle"
+        android:background="#00000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/game_title"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="149dp"
-        android:textSize="80dp" />
+        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="スタート"
-        android:id="@+id/to_game_mode"
-        android:layout_below="@+id/game_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="93dp" />
+
 </RelativeLayout>

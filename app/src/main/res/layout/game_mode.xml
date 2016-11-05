@@ -9,36 +9,46 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.tobashunsuke.reversi.GameMode">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="人　対　人"
-        android:id="@+id/human_vs_human"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/hvshbutton"
+        android:background="#00000000"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="人 対 COM:Level 1"
+        android:id="@+id/human_vs_human"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/human_vs_computer_level_1" />
+
+    <ImageButton
+        android:src="@drawable/hvsc1button"
+        android:background="#00000000"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/human_vs_computer_level_1"
         android:layout_below="@+id/human_vs_human"
         android:layout_centerHorizontal="true" />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/hvsc2button"
+        android:background="#00000000"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="人 対 COM:Level 2"
         android:id="@+id/human_vs_computer_level_2"
         android:layout_below="@+id/human_vs_computer_level_1"
         android:layout_centerHorizontal="true" />
 
-    <Button
+
+    <ImageButton
+        android:src="@drawable/totitle"
+        android:background="#00000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="タイトルへ戻る"
         android:id="@+id/to_title"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
+
 </RelativeLayout>
