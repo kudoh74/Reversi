@@ -12,6 +12,7 @@ public class Computer {
 
     private static int comOrder1 = 2; // cpu
     private static boolean hasTurnChange = false;
+    private static int comLV = 0;
 
     private static List<Integer> weightList = new ArrayList<>(); // 重み付け格納リスト
 
@@ -21,6 +22,14 @@ public class Computer {
 
     public void setComOrder1(int comOrder1) {
         this.comOrder1 = comOrder1;
+    }
+
+    public int getComLV() {
+        return comLV;
+    }
+
+    public void setComLV(int comLV) {
+        this.comLV = comLV;
     }
 
     public boolean getHasTurnChange() {

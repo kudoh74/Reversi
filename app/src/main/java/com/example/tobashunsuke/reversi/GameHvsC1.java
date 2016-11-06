@@ -66,6 +66,12 @@ public class GameHvsC1 extends AppCompatActivity {
         initGui(); // guiの初期化
         computer.setHasTurnChange(false);
 
+        if(computer.getComLV() == 1) {
+        } else if(computer.getComLV() == 2){
+            computer.initCom2List(); // 重み付けのリストの初期化
+        }
+
+
 
         // gridviewをタップしたとき
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,10 +79,10 @@ public class GameHvsC1 extends AppCompatActivity {
 
                 if (initFlip.canPut(position) && gObj.getImgList().get(position).equals(gObj.getPiece(3))) { // 置くことができ、置ける画像の場所なら
 
-                    for (int i = 0; i <= 1; i++) {
+                    for (int i = 0; i <= 1; i++) { // 自分が行動した後に、コンピュータを動作させる
 
-                        if (i == 0) {
-                            clickAndCom(position);
+                        if (i == 0) { // 自分の行動
+                            clickAndCom(position); // 場所に対する処理
                             adapter.notifyDataSetChanged();
                         } else if(computer.getComOrder1() == gObj.getSTurn()){
                             Log.e("onclick", "through : 33333");/*
@@ -89,9 +95,13 @@ public class GameHvsC1 extends AppCompatActivity {
                                 gObj.getImgList().set((8 * j) + 5, gObj.getPiece(0));
                                 gObj.getImgList().set((8 * j) + 6, gObj.getPiece(0));
                             }*/
-                            while (computer.getComOrder1() == gObj.getSTurn()) {
+                            while (computer.getComOrder1() == gObj.getSTurn()) { // プレイヤーのパスが終わるまで
                                 initFlip.putPlace();// 置ける場所に置ける画像を配置
-                                position = computer.com1AI();
+                                if(computer.getComLV() == 1) {
+                                    position = computer.com1AI(); // comLv1の導き出した場所
+                                } else if(computer.getComLV() == 2){
+                                    position = computer.com2AI(); // comLv2の導き出した場所
+                                }
 
                                 if (position == -1) { // エラー、置く場所がない
                                     gObj.setSTurn(3 - gObj.getSTurn()); // ターンチェンジ
@@ -100,7 +110,7 @@ public class GameHvsC1 extends AppCompatActivity {
                                     Log.e("onclick", "through : 3");
                                     break;
                                 }
-                                clickAndCom(position);
+                                clickAndCom(position); // 場所に対する処理
                                 Log.d("onclick", String.valueOf(position));
                                 adapter.notifyDataSetChanged();
                                 Log.d("onclick", "through : 1");
@@ -121,6 +131,7 @@ public class GameHvsC1 extends AppCompatActivity {
 
         });
 
+        // クリアボタン
         boardClear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -150,16 +161,22 @@ public class GameHvsC1 extends AppCompatActivity {
             }
         });
 
+        // 後攻ボタン
         afterAttack.setOnClickListener(new View.OnClickListener() { // 後攻にする
             public void onClick(View v) {
                 //adapter.notifyDataSetChanged();
                 if(v == afterAttack) {
-                    int position;
+                    int position = 0;
                     initFlip.initBoard();
                     computer.setComOrder1(1); // 後攻にする
                     initGui();
 
-                    position = computer.com1AI();
+                    if(computer.getComLV() == 1) {
+                        position = computer.com1AI(); // comLv1の導き出した場所
+                    } else if(computer.getComLV() == 2){
+                        position = computer.com2AI(); // comLv2の導き出した場所
+                    }
+
                     clickAndCom(position);
                     computer.setHasTurnChange(false); // ターンチェンジしたことを保存
 
@@ -168,6 +185,7 @@ public class GameHvsC1 extends AppCompatActivity {
             }
         });
 
+        // 戻るボタン
         returnGameMode.setOnClickListener(new View.OnClickListener() { // GameModeクラスに画面遷移
             public void onClick(View v) {
                 if(v == returnGameMode) {
@@ -177,7 +195,7 @@ public class GameHvsC1 extends AppCompatActivity {
         });
     }
 
-    // guiの処理
+    // guiの処理　どちらのターンが描画
     private void setWhichTurn(){
         if (gObj.getSTurn() == 1) {
             whichTurn.setText("黒のターン");
@@ -185,6 +203,7 @@ public class GameHvsC1 extends AppCompatActivity {
             whichTurn.setText("白のターン");
         }
     }
+    // guiの処理　現在の各石の個数を描画
     private void setWBText(){
         w_bText.setText(String.format("白:%d - 黒:%d", gObj.getWCount(), gObj.getBCount()));
     }
@@ -197,7 +216,7 @@ public class GameHvsC1 extends AppCompatActivity {
         setWBText();
     }
 
-    private void clickAndCom(int position){
+    private void clickAndCom(int position){ // タップした時に動作とコンピュータの動作
 
         //if (initFlip.canPut(position) && !initFlip.isDuplicate(position)) { // 置くことができ、一回打ったところでない
         if (initFlip.canPut(position) && gObj.getImgList().get(position).equals(gObj.getPiece(3))) { // 置くことができ、置ける画像の場所なら

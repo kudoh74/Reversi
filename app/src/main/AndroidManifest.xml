@@ -27,10 +27,6 @@
             android:name=".GameHvsC1"
             android:label="@string/app_name">
         </activity>
-        <activity
-            android:name=".GameHvsC2"
-            android:label="@string/app_name">
-        </activity>
     </application>
 
 </manifest>
