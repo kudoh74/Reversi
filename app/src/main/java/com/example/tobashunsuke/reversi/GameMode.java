@@ -12,12 +12,14 @@ public class GameMode extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_mode);
 
+        final GameObject mGameObject = new GameObject();
         final Computer mComputer = new Computer();
 
         final ImageButton toHvsH = (ImageButton) findViewById(R.id.human_vs_human);
         final ImageButton returnMain = (ImageButton) findViewById(R.id.to_title);
         final ImageButton toHvsC1 = (ImageButton) findViewById(R.id.human_vs_computer_level_1);
         final ImageButton toHvsC2 = (ImageButton) findViewById(R.id.human_vs_computer_level_2);
+        final ImageButton droidButton = (ImageButton) findViewById(R.id.droid_Button);
 
         // 人対人
         toHvsH.setOnClickListener(new View.OnClickListener() { // 人　対　人　へ
@@ -57,6 +59,20 @@ public class GameMode extends AppCompatActivity{
             public void onClick(View v) {
                 if(v == returnMain){
                     finish();
+                }
+            }
+        });
+
+        // ドロイドボタン
+        droidButton.setOnClickListener(new View.OnClickListener() { // タイトルへ
+            public void onClick(View v) {
+                if(v == droidButton){
+                    if(mGameObject.getDroidMode()){ // ドロイドモードがtrue（ドロイドの画像使用中）だったら
+                        mGameObject.setDroidMode(false);
+                    } else {
+                        mGameObject.setDroidMode(true);
+                    }
+
                 }
             }
         });

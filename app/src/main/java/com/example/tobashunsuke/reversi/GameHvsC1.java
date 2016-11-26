@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,16 +37,16 @@ public class GameHvsC1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_h_vs_c1);
 
-        returnGameMode = (ImageButton) findViewById(R.id.return_gamemode1);
-        afterAttack = (ImageButton) findViewById(R.id.after_attack1);
+        returnGameMode = (ImageButton) findViewById(R.id.return_gamemode1); // 戻るボタン
+        afterAttack = (ImageButton) findViewById(R.id.after_attack1); // 後攻ボタン
 
         boardClear = (ImageButton) findViewById(R.id.button_clear1); // 盤のクリア
         whichTurn = (TextView) findViewById(R.id.textView_turn1); // どちらのターンか表示
         resultText = (TextView) findViewById(R.id.textView_result1); // 結果の表示
         w_bText = (TextView) findViewById(R.id.textView_wb1); // 白と黒の数の表示
 
-        resultText.setText("");
-        setWBText();
+        resultText.setText(""); // 結果のテキストを描画しない
+        setWBText(); // 現在の各石の個数を描画
 
         // GridViewのインスタンスを生成
         final GridView gridview = (GridView) findViewById(R.id.gridview1);
@@ -68,7 +67,7 @@ public class GameHvsC1 extends AppCompatActivity {
 
         if(computer.getComLV() == 1) {
         } else if(computer.getComLV() == 2){
-            computer.initCom2List(); // 重み付けのリストの初期化
+            computer.weightList(); // 重み付けのリストの初期化
         }
 
 
@@ -82,19 +81,13 @@ public class GameHvsC1 extends AppCompatActivity {
                     for (int i = 0; i <= 1; i++) { // 自分が行動した後に、コンピュータを動作させる
 
                         if (i == 0) { // 自分の行動
-                            clickAndCom(position); // 場所に対する処理
-                            adapter.notifyDataSetChanged();
+                            doPlayerAndComputer(position); // 場所に対する処理
+
+                            screenuUpdating();
+
                         } else if(computer.getComOrder1() == gObj.getSTurn()){
-                            Log.e("onclick", "through : 33333");/*
-                            for(int j = 0; j < 8; j++) {
-                                gObj.getImgList().set(8 * j, gObj.getPiece(2));
-                                gObj.getImgList().set((8 * j) + 1, gObj.getPiece(1));
-                                gObj.getImgList().set((8 * j) + 2, gObj.getPiece(0));
-                                gObj.getImgList().set((8 * j) + 3, gObj.getPiece(0));
-                                gObj.getImgList().set((8 * j) + 4, gObj.getPiece(0));
-                                gObj.getImgList().set((8 * j) + 5, gObj.getPiece(0));
-                                gObj.getImgList().set((8 * j) + 6, gObj.getPiece(0));
-                            }*/
+                            //Log.e("onclick", "through : 33333");
+                            
                             while (computer.getComOrder1() == gObj.getSTurn()) { // プレイヤーのパスが終わるまで
                                 initFlip.putPlace();// 置ける場所に置ける画像を配置
                                 if(computer.getComLV() == 1) {
@@ -107,14 +100,16 @@ public class GameHvsC1 extends AppCompatActivity {
                                     gObj.setSTurn(3 - gObj.getSTurn()); // ターンチェンジ
                                     computer.setHasTurnChange(true); // ターンチェンジしたことを保存
                                     setWhichTurn();
-                                    Log.e("onclick", "through : 3");
+                                    //Log.e("onclick", "through : 3");
                                     break;
                                 }
-                                clickAndCom(position); // 場所に対する処理
-                                Log.d("onclick", String.valueOf(position));
-                                adapter.notifyDataSetChanged();
-                                Log.d("onclick", "through : 1");
-                                //computer.waitTime();
+
+                                doPlayerAndComputer(position); // 場所に対する処理
+                                //Log.d("onclick", String.valueOf(position));
+
+                                //Log.d("onclick", "through : 1");
+
+                                screenuUpdating();
                             }
                         }
 
@@ -124,7 +119,7 @@ public class GameHvsC1 extends AppCompatActivity {
                 if (computer.getHasTurnChange()) {
                     setWhichTurn(); // ないとパスした時に相手のターンが表示される
                     computer.setHasTurnChange(false);
-                    Log.e("onclick", "through : 2");
+                    //Log.e("onclick", "through : 2");
                     initFlip.putPlace();// 置ける場所に置ける画像を配置
                 }
             }
@@ -141,21 +136,13 @@ public class GameHvsC1 extends AppCompatActivity {
                     initGui();
                     computer.setComOrder1(2); // CPUを後攻に
 
-                    for(int i = 0; i < 5; i++) {/*
-                        gObj.getImgList().set(8 * i, gObj.getPiece(2));
-                        gObj.getImgList().set((8 * i) + 1, gObj.getPiece(1));
-                        gObj.getImgList().set((8 * i) + 2, gObj.getPiece(1));
-                        gObj.getImgList().set((8 * i) + 3, gObj.getPiece(0));
-                        gObj.getImgList().set((8 * i) + 4, gObj.getPiece(0));
-                        gObj.getImgList().set((8 * i) + 5, gObj.getPiece(1));
-                        gObj.getImgList().set((8 * i) + 6, gObj.getPiece(1));*/
+                    for(int i = 0; i < 5; i++) {
                     }
-                    //gObj.getImgList().set(34, gObj.getPiece(2));
-                    //gObj.getImgList().set(35, gObj.getPiece(0));
 
                     initFlip.putPlace();// 置ける場所に置ける画像を配置
-                    adapter.notifyDataSetChanged(); // 画面更新
+                    screenuUpdating();
                     computer.setHasTurnChange(false);
+                    computer.weightList(); // 重み付けのリストを初期化
                 }
 
             }
@@ -164,7 +151,7 @@ public class GameHvsC1 extends AppCompatActivity {
         // 後攻ボタン
         afterAttack.setOnClickListener(new View.OnClickListener() { // 後攻にする
             public void onClick(View v) {
-                //adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
                 if(v == afterAttack) {
                     int position = 0;
                     initFlip.initBoard();
@@ -177,10 +164,11 @@ public class GameHvsC1 extends AppCompatActivity {
                         position = computer.com2AI(); // comLv2の導き出した場所
                     }
 
-                    clickAndCom(position);
+                    doPlayerAndComputer(position);
                     computer.setHasTurnChange(false); // ターンチェンジしたことを保存
 
                     adapter.notifyDataSetChanged();
+                    computer.weightList(); // 重み付けのリストを初期化
                 }
             }
         });
@@ -189,13 +177,25 @@ public class GameHvsC1 extends AppCompatActivity {
         returnGameMode.setOnClickListener(new View.OnClickListener() { // GameModeクラスに画面遷移
             public void onClick(View v) {
                 if(v == returnGameMode) {
+                    initFlip.initBoard(); // 盤の初期化
+                    initGui();
+                    computer.setComOrder1(2); // CPUを後攻に
+                    initFlip.putPlace();// 置ける場所に置ける画像を配置
+                    adapter.notifyDataSetChanged(); // 画面更新
+                    computer.setHasTurnChange(false);
+                    computer.weightList(); // 重み付けのリストを初期化
                     finish();
                 }
             }
         });
     }
 
-    // guiの処理　どちらのターンが描画
+    // 画面更新
+    private void screenuUpdating(){
+        adapter.notifyDataSetChanged(); // 画面更新
+    }
+
+    // guiの処理　どちらのターンか描画
     private void setWhichTurn(){
         if (gObj.getSTurn() == 1) {
             whichTurn.setText("黒のターン");
@@ -212,11 +212,10 @@ public class GameHvsC1 extends AppCompatActivity {
         initFlip.putPlace(); // 置ける場所を表示
         setWhichTurn();
 
-
         setWBText();
     }
 
-    private void clickAndCom(int position){ // タップした時に動作とコンピュータの動作
+    private void doPlayerAndComputer(int position){ // タップした時の動作とコンピュータの動作
 
         //if (initFlip.canPut(position) && !initFlip.isDuplicate(position)) { // 置くことができ、一回打ったところでない
         if (initFlip.canPut(position) && gObj.getImgList().get(position).equals(gObj.getPiece(3))) { // 置くことができ、置ける画像の場所なら

@@ -29,7 +29,8 @@
         android:id="@+id/textView_turn"
         android:textSize="40dp"
         android:typeface="monospace"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#FF6B190A" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,6 +39,7 @@
         android:id="@+id/textView_wb"
         android:textSize="30dp"
         android:typeface="monospace"
+        android:textColor="#FF6B190A"
         android:layout_below="@+id/gridview"
         android:layout_alignEnd="@+id/gridview" />
 

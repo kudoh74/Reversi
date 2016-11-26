@@ -39,7 +39,8 @@
         android:textSize="40dp"
         android:typeface="monospace"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#FF6B190A" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +49,8 @@
         android:id="@+id/textView_wb1"
         android:textSize="30dp"
         android:typeface="monospace"
-        android:layout_alignTop="@+id/after_attack1"
+        android:textColor="#FF6B190A"
+        android:layout_below="@+id/gridview1"
         android:layout_alignEnd="@+id/gridview1" />
 
     <TextView

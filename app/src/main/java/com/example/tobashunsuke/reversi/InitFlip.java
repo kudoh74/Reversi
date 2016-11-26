@@ -203,6 +203,8 @@ public class InitFlip {
 
         int valueCntnr = boardPosition; // valueCntnrで計算する
 
+
+
         // 上方向の返す処理
         if (!overTop) {
             if (gObj.getImgList().get(boardPosition - 8).equals(gObj.getPiece(3 - gObj.getSTurn()))) {

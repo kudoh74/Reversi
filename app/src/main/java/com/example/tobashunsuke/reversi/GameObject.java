@@ -6,7 +6,7 @@ import java.util.List;
 public class GameObject {
     // 画像をpieceに入れる、配列にすることで添字でいろいろできるようになる
     private final String[] piece = {String.valueOf(R.drawable.ban), String.valueOf(R.drawable.kuro), String.valueOf(R.drawable.shiro), String.valueOf(R.drawable.put)};
-
+    private final String[] piece2 = {String.valueOf(R.drawable.ban), String.valueOf(R.drawable.blackdroid), String.valueOf(R.drawable.whitedroid), String.valueOf(R.drawable.put)};
     // 要素をArrayListで設定
     private static List<String> imgList = new ArrayList<>(); // staticにすると処理ができる
 
@@ -19,8 +19,22 @@ public class GameObject {
     private static int pCount = 0; // 置ける場所のカウント
     private static boolean skipTurn = false; // 両方置けなかった場合
 
+    private static boolean droidMode = false; // 石の画像をドロイドに変更、falseだと通常の石、trueだとドロイド
+
+    public boolean getDroidMode(){
+        return droidMode;
+    }
+
+    public void setDroidMode(boolean droidMode){
+        this.droidMode = droidMode;
+    }
+
     public String getPiece(int position){
-        return piece[position];
+        if(!droidMode){
+            return piece[position];
+        } else{
+            return piece2[position];
+        }
     }
 
     public List<String> getImgList(){ // staticにすると処理ができる
